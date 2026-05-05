@@ -1,11 +1,41 @@
+# Dependencies
 node_modules/
+
+# Build output
 .next/
 out/
-.DS_Store
-*.pem
+build/
+
+# Environment / secrets
+.env
+.env.local
 .env*.local
+*.pem
+
+# Deploy tool state
+.vercel/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+
+# Tooling state
 .claude/
 
-# Personal documents — never commit
+# Personal documents. Never commit.
 SaumayKhandelwal_Resume_April_2025_External.pdf
 *_Resume_*.pdf

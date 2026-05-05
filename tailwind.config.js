@@ -9,18 +9,19 @@ module.exports = {
       },
       colors: {
         // ─── THEME ───────────────────────────────────────────────────────────
-        // To change the look, edit the values below and run `npm run dev`
+        // Values live as RGB triples in CSS variables (see globals.css).
+        // Toggling [data-theme="light"] on <html> swaps the entire palette.
         dark: {
-          bg:      '#0d1117', // page background
-          surface: '#161c27', // subtle section background
-          card:    '#1c2333', // card background
-          border:  '#2a3347', // border color
+          bg:      'rgb(var(--color-bg) / <alpha-value>)',
+          surface: 'rgb(var(--color-surface) / <alpha-value>)',
+          card:    'rgb(var(--color-card) / <alpha-value>)',
+          border:  'rgb(var(--color-border) / <alpha-value>)',
         },
         accent: {
-          primary:   '#5eead4', // soft teal  — main accent, links, highlights
-          secondary: '#a78bfa', // soft lavender — gradient end, secondary accent
-          green:     '#6ee7b7', // mint green — success / active states
-          pink:      '#f9a8d4', // soft rose  — tertiary accent
+          primary:   'rgb(var(--color-accent-primary) / <alpha-value>)',
+          secondary: 'rgb(var(--color-accent-secondary) / <alpha-value>)',
+          green:     'rgb(var(--color-accent-green) / <alpha-value>)',
+          pink:      'rgb(var(--color-accent-pink) / <alpha-value>)',
         },
         // ─────────────────────────────────────────────────────────────────────
       },

@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── THEME PALETTES ──────────────────────────────────────────────────────
+   Values are RGB triples consumed by tailwind.config.js via
+   rgb(var(--name) / <alpha-value>). To re-skin, edit the numbers below.
+   ─────────────────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme='dark'] {
+  --color-bg:               13 17 23;
+  --color-surface:          22 28 39;
+  --color-card:             28 35 51;
+  --color-border:           42 51 71;
+  --color-accent-primary:   94 234 212;  /* teal-300 */
+  --color-accent-secondary: 167 139 250; /* violet-400 */
+  --color-accent-green:     110 231 183; /* emerald-300 */
+  --color-accent-pink:      249 168 212; /* pink-300 */
+}
+
+[data-theme='light'] {
+  --color-bg:               250 250 252;
+  --color-surface:          241 245 249;
+  --color-card:             255 255 255;
+  --color-border:           226 232 240;
+  --color-accent-primary:   13 148 136;  /* teal-600 */
+  --color-accent-secondary: 124 58 237;  /* violet-600 */
+  --color-accent-green:     5 150 105;   /* emerald-600 */
+  --color-accent-pink:      219 39 119;  /* pink-600 */
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -9,10 +37,10 @@
 
   body {
     @apply bg-dark-bg text-slate-100;
-    /* Subtle ambient glow at top of page */
+    transition: background-color 0.25s ease, color 0.25s ease;
     background-image:
-      radial-gradient(ellipse 80% 40% at 50% -10%, rgba(94, 234, 212, 0.06) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 30% at 80% 10%, rgba(167, 139, 250, 0.04) 0%, transparent 60%);
+      radial-gradient(ellipse 80% 40% at 50% -10%, rgb(var(--color-accent-primary) / 0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 30% at 80% 10%, rgb(var(--color-accent-secondary) / 0.04) 0%, transparent 60%);
   }
 
   ::selection {
@@ -23,20 +51,31 @@
   ::-webkit-scrollbar-track  { @apply bg-dark-bg; }
   ::-webkit-scrollbar-thumb  { @apply bg-dark-border rounded-full; }
   ::-webkit-scrollbar-thumb:hover { @apply bg-accent-primary/40; }
+
+  /* ── Light theme: invert slate text scale + adjust selection ─────────── */
+  [data-theme='light'] body          { color: rgb(15 23 42); }   /* slate-900 */
+  [data-theme='light'] .text-slate-100 { color: rgb(15 23 42); }
+  [data-theme='light'] .text-slate-200 { color: rgb(30 41 59); } /* slate-800 */
+  [data-theme='light'] .text-slate-300 { color: rgb(51 65 85); } /* slate-700 */
+  [data-theme='light'] .text-slate-400 { color: rgb(71 85 105); }/* slate-600 */
+  [data-theme='light'] .text-slate-500 { color: rgb(100 116 139); } /* slate-500 */
+  [data-theme='light'] .text-slate-600 { color: rgb(148 163 184); } /* slate-400 */
+
+  [data-theme='light'] ::selection {
+    @apply bg-accent-primary/25;
+    color: rgb(15 23 42);
+  }
 }
 
 @layer components {
-  /* Monospace tag above section headings */
   .section-tag {
     @apply font-mono text-accent-primary text-sm tracking-wider;
   }
 
-  /* Cyan → purple gradient text */
   .gradient-text {
     @apply bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent;
   }
 
-  /* Standard card with hover glow */
   .card {
     @apply bg-dark-card border border-dark-border rounded-xl p-6
            transition-all duration-300

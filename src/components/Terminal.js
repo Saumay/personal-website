@@ -7,31 +7,40 @@ import { useState, useEffect, useRef } from 'react';
 const COMMANDS = {
   help: `Available commands:
 
+  NAVIGATE ───────────────────────────
+  ls              List files in current dir
+  cd <dir>        Change directory
+  pwd             Print working dir
+  cat <file>      Read a file
+
   BASICS ─────────────────────────────
-  whoami        About me
-  skills        Tech stack
-  experience    Work history
-  projects      Side projects
-  contact       Get in touch
+  whoami          About me
+  skills          Tech stack
+  experience      Work history
+  projects        Side projects
+  contact         Get in touch
 
   JUST FOR FUN ───────────────────────
-  f1            🏎️  For the motorsport fans
-  cricket       🏏 The gentleman's game
-  git log       Recent "commits"
-  neofetch      System info
-  ping          ping google.com
-  sudo          sudo [anything]
-  echo $VIBES   Check the vibes
+  f1              🏎️  For motorsport fans
+  cricket         🏏 The gentleman's game
+  git log         Recent "commits"
+  neofetch        System info
+  ping            ping google.com
+  sudo            sudo [anything]
+  echo $VIBES     Check the vibes
 
   ✨ MAGIC ────────────────────────────
   [try a spell...]
 
-  clear         Clear terminal`,
+  history         Command history
+  clear           Clear terminal
+
+  TIPS: Tab to autocomplete · ↑/↓ for history · ⤢ to go fullscreen`,
 
   whoami: `Saumay Khandelwal
 SWE-III @ Google (Nest) · Mountain View, CA
 Ex-Uber | Ex-Upstox | Ex-Sabre
-VIT Vellore '19 | ERC'18 finalist
+VIT Vellore '19 (CGPA 9.35) · ERC'18: 2nd in Asia, 18th worldwide
 
 "Building things that scale, and occasionally break in interesting ways."`,
 
@@ -44,31 +53,38 @@ AI/ML:       LLM Agents · Fine-tuning · Prompt Engineering`,
 
   Google (Nest)   Nov 2023 – Present
   ├ SWE-III
-  ├ On-demand virtual device infra
-  └ LLM-based integration testing → 90% success, 10,000+ dev hrs saved
+  ├ On-demand virtual device infrastructure
+  └ LLM-contract integration-testing framework
 
   Uber            Nov 2022 – Nov 2023
-  ├ SDE-2
-  └ Anomaly detection systems → protected $300K+ in ad budget
+  ├ SDE-2 · Growth & Marketing Platform
+  └ Multi-tenant subscription, notification & anomaly detection
+    on the ad-ingestion pipeline
 
   Upstox          April 2021 – Nov 2022
-  ├ Senior SWE
-  └ Scaled 40K → 1M+ users (2000%+ growth)
+  ├ Senior SWE · Customer Acquisition & Platform
+  ├ Automated Demat onboarding (regulatory + government integrations)
+  └ Rebuilt profile / onboarding / notification services for scale
 
   Sabre           Jan 2019 – April 2021
-  ├ Associate SWE
-  └ Mainframe → microservices on GCP`,
+  ├ Intern → Associate SWE → Contributor SWE
+  ├ Lifted PNR services (Frequent Flyer, Display, Commit) off mainframe
+  ├ Replaced MQ with Kafka; SSO via LDAP
+  └ Winner: Sabre Hackathon + Demo Day`,
 
   projects: `🚀 Projects:
 
-  🤖 European Rover Challenge '18   [Programming Lead]
-     Object detection ML for a Mars rover.
-     2nd in Asia · 18th globally among 65 teams.
+  🤖 European Rover Challenge '18   [Programming Lead, team of 7]
+     Autonomous Mars rover. In-house ML object detection & avoidance,
+     robotic arm simulator, remote controller.
+     → 2nd in Asia, 18th worldwide (out of 65 teams).
      (Yes, an actual Mars rover. Yes, really.)
 
   👁️  Sabrina                        [Tech Lead]
      Voice navigation device for the visually impaired.
-     Camera + ultrasonic sensors + real-time ML.`,
+     Camera + ultrasonic sensors + real-time ML on-device.
+
+  Tip: cd projects/ then ls to poke around.`,
 
   contact: `📬 Get in touch:
 
@@ -81,15 +97,15 @@ AI/ML:       LLM Agents · Fine-tuning · Prompt Engineering`,
   // ── F1 ─────────────────────────────────────────────────────────────────────
   f1: `🏎️  Formula 1 mode activated.
 
-"To finish first, first you must finish." — Michael Schumacher
+"To finish first, first you must finish."  - Michael Schumacher
 
 Try: f1 --goat  |  f1 --team  |  f1 --moment  |  drs`,
 
   'f1 --goat': `🏆 The GOAT debate (I have opinions):
 
-Schumacher  — 7 titles. Clinical. Ruthless. Dominant era.
-Hamilton    — 7 titles. Most diverse grid in history. Longevity.
-Verstappen  — Generational. The era is just getting started.
+Schumacher  - 7 titles. Clinical. Ruthless. Dominant era.
+Hamilton    - 7 titles. Most diverse grid in history. Longevity.
+Verstappen  - Generational. The era is just getting started.
 
 Hot take: The GOAT debate is like CAP theorem.
 You can optimise for raw pace, consistency, or legacy.
@@ -142,14 +158,14 @@ Try: cricket --goat  |  cricket --india  |  duckworth-lewis`,
 
   'cricket --goat': `🐐 The GOAT debate:
 
-Sachin Tendulkar — The God. 100 international centuries.
+Sachin Tendulkar - The God. 100 international centuries.
                    Played when pitches were pitches.
                    No DRS. No T20 dilution. Just greatness.
 
-Virat Kohli      — Chases everything. Made impossible look routine.
+Virat Kohli      - Chases everything. Made impossible look routine.
                    The modern benchmark.
 
-Brian Lara       — 400* in Tests. Pure art. Caribbean flair.
+Brian Lara       - 400* in Tests. Pure art. Caribbean flair.
 
 My take: Sachin. Non-negotiable.
 (I will not be taking questions at this time.)`,
@@ -187,7 +203,7 @@ This is by design.`,
 
 "Happiness can be found even in the darkest of times,
 if one only remembers to turn on the light."
-— Albus Dumbledore
+- Albus Dumbledore
 
 Also applies to: dark mode portfolios.
 Type 'nox' to extinguish.`,
@@ -254,16 +270,7 @@ a tiny bug that was fixed in 3 lines of code.
 Laughter is the best defence.
 Against boggarts and on-call alerts.`,
 
-  'accio resume': `📜  *summoning charm*
-
-Accio... Curriculum Vitae!
-*dramatic whooshing*
-
-→ /SaumayKhandelwal_Resume_April_2025_External.pdf
-
-Or scroll to #contact — slightly less theatrical, equally effective.`,
-
-  'i solemnly swear that i am up to no good': `🗺️
+'i solemnly swear that i am up to no good': `🗺️
 
   ✦ · · · · · · · · · · · · · · · · · · · · ✦
   ·                                           ·
@@ -288,17 +295,19 @@ Date:   Just now
     fix: finally built personal website after years of procrastinating
 
 commit d4e5f6a
-    feat: save 10,000+ dev hours with LLM contract testing
+    feat(google): LLM-contract integration testing framework
 
 commit 7g8h9i0
-    feat: scale Upstox from 40K to 1M+ active users
+    feat(uber): anomaly detection on ad-ingestion pipeline
+
+commit a9b8c7d
+    feat(upstox): rebuild onboarding & notification services for scale
 
 commit 1j2k3l4
-    feat: build autonomous Mars rover for ERC'18
-          secured 2nd rank in Asia, 18th globally
+    feat(erc'18): autonomous Mars rover → 2nd in Asia, 18th worldwide
 
 commit 5m6n7o8
-    chore: replace MQ with Kafka at Sabre
+    chore(sabre): replace MQ with Kafka, lift PNR services off mainframe
 
 commit 9p0q1r2
     init: hello world 👋`,
@@ -311,7 +320,7 @@ commit 9p0q1r2
     ██  ██  ██  ██  ██       OS       macOS Sequoia
       ██  ██  ██  ██         Shell    zsh
         ██████████           Editor   whatever gets the job done
-                             Uptime   6+ years in industry
+                             Uptime   7+ years in industry
                              Coffee   ☕☕☕ (critical)
                              F1       Yes
                              Cricket  Obviously
@@ -356,34 +365,120 @@ Unlike some production databases I've seen.
   'echo hello': `hello`,
 };
 
+// Aliases (forgiving)
+const ALIASES = {
+  ping: 'ping google.com',
+  ls: '__ls__',
+  pwd: '__pwd__',
+  cd: '__cd__',
+  cat: '__cat__',
+  history: '__history__',
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  VIRTUAL FILESYSTEM
+//  Files reference COMMANDS keys (`cmd`) or carry inline `text`.
+// ─────────────────────────────────────────────────────────────────────────────
+const FS = {
+  type: 'dir',
+  children: {
+    'about.txt':       { type: 'file', cmd: 'whoami' },
+    'skills.txt':      { type: 'file', cmd: 'skills' },
+    'experience.log':  { type: 'file', cmd: 'experience' },
+    'contact.md':      { type: 'file', cmd: 'contact' },
+    'projects': {
+      type: 'dir',
+      children: {
+        'mars-rover.txt': {
+          type: 'file',
+          text: `🤖 European Rover Challenge '18
+
+Programming Lead. Team of 7.
+Built an autonomous Mars rover. In-house ML for object detection
+and avoidance, robotic arm simulator, remote controller.
+
+Result: 2nd in Asia, 18th worldwide (out of 65 teams).
+Location: Kielce, Poland.
+
+The rover survived. The team's sleep schedule did not.`,
+        },
+        'sabrina.txt': {
+          type: 'file',
+          text: `👁️  Sabrina
+
+Tech Lead. Two-person hack week.
+Voice-enabled portable navigation device for the visually impaired.
+Camera + ultrasonic sensors. Real-time ML object detection on-device.
+
+Built to give back independence on the move.`,
+        },
+      },
+    },
+    'fun': {
+      type: 'dir',
+      children: {
+        'f1.txt':       { type: 'file', cmd: 'f1' },
+        'cricket.txt':  { type: 'file', cmd: 'cricket' },
+        'magic.spell':  {
+          type: 'file',
+          text: `Try a spell:
+  lumos · nox · alohomora · expelliarmus
+  expecto patronum · wingardium leviosa · riddikulus
+  i solemnly swear that i am up to no good`,
+        },
+      },
+    },
+  },
+};
+
+function resolveDir(cwd) {
+  let node = FS;
+  for (const part of cwd) {
+    if (!node || node.type !== 'dir' || !node.children[part]) return null;
+    node = node.children[part];
+  }
+  return node;
+}
+
+function pwdString(cwd) {
+  return cwd.length === 0 ? '/' : '/' + cwd.join('/');
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 //  Command processor
 // ─────────────────────────────────────────────────────────────────────────────
 const CLEAR_COMMANDS = new Set(['clear', 'obliviate', 'mischief managed']);
 
-function processCommand(raw) {
+function processCommand(raw, ctx) {
   const input = raw.trim();
   const lower = input.toLowerCase();
 
   if (CLEAR_COMMANDS.has(lower)) return { type: 'clear', text: lower };
 
-  // Exact match (handles multi-word commands like "i solemnly swear…")
+  // FS commands first (they need ctx)
+  if (lower === 'ls' || lower.startsWith('ls ')) return { type: 'output', text: cmdLs(ctx) };
+  if (lower === 'pwd') return { type: 'output', text: pwdString(ctx.cwd) };
+  if (lower === 'cd' || lower.startsWith('cd ')) return cmdCd(input.slice(2).trim(), ctx);
+  if (lower.startsWith('cat ')) return { type: 'output', text: cmdCat(input.slice(4).trim(), ctx) };
+  if (lower === 'cat') return { type: 'output', text: 'usage: cat <file>' };
+  if (lower === 'history') return { type: 'output', text: cmdHistory(ctx) };
+
+  // Exact match (multi-word commands)
   if (COMMANDS[lower] !== undefined) return { type: 'output', text: COMMANDS[lower] };
 
-  // accio [anything] fallback
+  // Aliases
+  if (ALIASES[lower] && COMMANDS[ALIASES[lower]] !== undefined) {
+    return { type: 'output', text: COMMANDS[ALIASES[lower]] };
+  }
+
+  // accio [anything]
   if (lower.startsWith('accio ')) {
     const thing = input.slice(6);
     return {
       type: 'output',
-      text: `🪄  *summoning charm*\n\nAccio ${thing}!\n*dramatic whooshing*\n\nSorry — ${thing} is beyond terminal range.\nTry: accio resume`,
+      text: `🪄  *summoning charm*\n\nAccio ${thing}!\n*dramatic whooshing*\n\nSorry, ${thing} is beyond terminal range.\nTry summoning something simpler.`,
     };
   }
-
-  // f1 subcommands
-  if (lower.startsWith('f1 ') && COMMANDS[lower]) return { type: 'output', text: COMMANDS[lower] };
-
-  // cricket subcommands
-  if (lower.startsWith('cricket ') && COMMANDS[lower]) return { type: 'output', text: COMMANDS[lower] };
 
   // sudo passthrough
   if (lower.startsWith('sudo ')) {
@@ -398,19 +493,129 @@ function processCommand(raw) {
   };
 }
 
+function cmdLs(ctx) {
+  const node = resolveDir(ctx.cwd);
+  if (!node) return 'ls: no such directory';
+  const entries = Object.entries(node.children).sort(([a], [b]) => a.localeCompare(b));
+  if (entries.length === 0) return '(empty)';
+  const dirs = entries.filter(([, v]) => v.type === 'dir').map(([k]) => `${k}/`);
+  const files = entries.filter(([, v]) => v.type === 'file').map(([k]) => k);
+  return [...dirs, ...files].join('   ');
+}
+
+function cmdCd(arg, ctx) {
+  if (arg === '' || arg === '~' || arg === '/') {
+    ctx.setCwd([]);
+    return { type: 'output', text: '' };
+  }
+  if (arg === '..') {
+    ctx.setCwd(ctx.cwd.slice(0, -1));
+    return { type: 'output', text: '' };
+  }
+  // Strip trailing slash
+  const clean = arg.replace(/\/$/, '');
+  // Absolute or relative? We support relative single-step + multi-step like a/b
+  const parts = clean.split('/').filter(Boolean);
+  let next = [...ctx.cwd];
+  for (const p of parts) {
+    if (p === '..') { next = next.slice(0, -1); continue; }
+    const node = resolveDir(next);
+    if (!node || node.type !== 'dir' || !node.children[p]) {
+      return { type: 'output', text: `cd: no such directory: ${arg}` };
+    }
+    if (node.children[p].type !== 'dir') {
+      return { type: 'output', text: `cd: not a directory: ${p}` };
+    }
+    next.push(p);
+  }
+  ctx.setCwd(next);
+  return { type: 'output', text: '' };
+}
+
+function cmdCat(arg, ctx) {
+  if (!arg) return 'usage: cat <file>';
+  const node = resolveDir(ctx.cwd);
+  if (!node || !node.children[arg]) return `cat: no such file: ${arg}`;
+  const f = node.children[arg];
+  if (f.type !== 'file') return `cat: ${arg}: is a directory`;
+  if (f.text) return f.text;
+  if (f.cmd && COMMANDS[f.cmd]) return COMMANDS[f.cmd];
+  return '(empty file)';
+}
+
+function cmdHistory(ctx) {
+  if (ctx.cmdHistory.length === 0) return '(no history yet)';
+  return ctx.cmdHistory
+    .slice()
+    .reverse()
+    .map((c, i) => `  ${String(i + 1).padStart(3, ' ')}  ${c}`)
+    .join('\n');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  Tab completion
+// ─────────────────────────────────────────────────────────────────────────────
+const TOP_LEVEL_CMDS = [
+  'help', 'whoami', 'skills', 'experience', 'projects', 'contact',
+  'ls', 'pwd', 'cd', 'cat', 'history', 'clear',
+  'f1', 'cricket', 'drs', 'duckworth-lewis',
+  'git log', 'neofetch', 'ping', 'ping google.com',
+  'sudo', 'echo $VIBES', 'echo hello',
+  'lumos', 'nox', 'alohomora', 'expelliarmus', 'riddikulus',
+  'expecto patronum', 'wingardium leviosa', 'avada kedavra',
+  'mischief managed', 'obliviate',
+  'i solemnly swear that i am up to no good',
+];
+
+function autocomplete(input, cwd) {
+  const lower = input.toLowerCase();
+
+  // Empty: list everything (limited)
+  if (lower === '') return TOP_LEVEL_CMDS.slice().sort();
+
+  // cat / cd: complete with FS entries in cwd
+  const catMatch = lower.match(/^(cat|cd)\s+(.*)$/);
+  if (catMatch) {
+    const [, head, prefix] = catMatch;
+    const node = resolveDir(cwd);
+    if (!node || node.type !== 'dir') return [];
+    let entries = Object.entries(node.children);
+    if (head === 'cd') entries = entries.filter(([, v]) => v.type === 'dir');
+    return entries
+      .map(([k, v]) => (v.type === 'dir' ? `${head} ${k}/` : `${head} ${k}`))
+      .filter(c => c.toLowerCase().startsWith(`${head} ${prefix}`));
+  }
+
+  // Top-level prefix
+  return TOP_LEVEL_CMDS.filter(c => c.startsWith(lower)).sort();
+}
+
+function commonPrefix(strings) {
+  if (strings.length === 0) return '';
+  if (strings.length === 1) return strings[0];
+  let prefix = strings[0];
+  for (const s of strings.slice(1)) {
+    while (!s.startsWith(prefix)) prefix = prefix.slice(0, -1);
+    if (prefix === '') return '';
+  }
+  return prefix;
+}
+
 const WELCOME = [
   "Welcome to Saumay's terminal. Type 'help' to get started.",
-  "Hint: try a spell, ask about f1, or check the git log. 👀",
+  "Hint: try `ls`, hit Tab for completion, or cast a spell. 👀",
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Component
 // ─────────────────────────────────────────────────────────────────────────────
 export default function Terminal() {
-  const [lines, setLines]         = useState([]);
-  const [input, setInput]         = useState('');
+  const [lines, setLines]           = useState([]);
+  const [input, setInput]           = useState('');
   const [cmdHistory, setCmdHistory] = useState([]);
-  const [histIdx, setHistIdx]     = useState(-1);
+  const [histIdx, setHistIdx]       = useState(-1);
+  const [cwd, setCwd]               = useState([]);
+  const [fullscreen, setFullscreen] = useState(false);
   const outputRef = useRef(null);
   const inputRef  = useRef(null);
 
@@ -431,27 +636,40 @@ export default function Terminal() {
       outputRef.current.scrollTop = outputRef.current.scrollHeight;
   }, [lines]);
 
+  // ESC exits fullscreen
+  useEffect(() => {
+    if (!fullscreen) return;
+    const onKey = e => { if (e.key === 'Escape') setFullscreen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [fullscreen]);
+
+  // Re-focus input when fullscreen toggles
+  useEffect(() => { inputRef.current?.focus(); }, [fullscreen]);
+
   const submit = (e) => {
     e.preventDefault();
     const raw = input.trim();
     if (!raw) return;
 
-    const result = processCommand(raw);
+    const ctx = { cwd, setCwd, cmdHistory };
+    const result = processCommand(raw, ctx);
 
     if (result.type === 'clear') {
+      const lc = raw.toLowerCase();
       const clearMsg =
-        raw.toLowerCase() === 'obliviate'
+        lc === 'obliviate'
           ? '*Obliviate!*\n\nYou remember nothing. Fresh start.'
-          : raw.toLowerCase() === 'mischief managed'
+          : lc === 'mischief managed'
           ? '🗺️  Mischief managed.\n\n*The terminal clears itself.*'
           : null;
       setLines(clearMsg ? [{ id: Date.now(), kind: 'system', text: clearMsg }] : []);
     } else {
-      setLines(l => [
-        ...l,
-        { id: Date.now(),     kind: 'input',  text: raw },
-        { id: Date.now() + 1, kind: 'output', text: result.text },
-      ]);
+      const newLines = [{ id: Date.now(), kind: 'input', text: raw, cwd: pwdString(cwd) }];
+      if (result.text !== '') {
+        newLines.push({ id: Date.now() + 1, kind: 'output', text: result.text });
+      }
+      setLines(l => [...l, ...newLines]);
     }
 
     setCmdHistory(h => [raw, ...h]);
@@ -470,8 +688,26 @@ export default function Terminal() {
       const next = Math.max(histIdx - 1, -1);
       setHistIdx(next);
       setInput(next === -1 ? '' : cmdHistory[next]);
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      const matches = autocomplete(input, cwd);
+      if (matches.length === 0) return;
+      if (matches.length === 1) {
+        setInput(matches[0]);
+        return;
+      }
+      // Multiple: try to extend to common prefix; also print options
+      const prefix = commonPrefix(matches);
+      if (prefix.length > input.length) setInput(prefix);
+      setLines(l => [
+        ...l,
+        { id: Date.now(), kind: 'input', text: input, cwd: pwdString(cwd) },
+        { id: Date.now() + 1, kind: 'output', text: matches.join('   ') },
+      ]);
     }
   };
+
+  const promptPath = pwdString(cwd) === '/' ? '~/saumay' : `~/saumay${pwdString(cwd)}`;
 
   return (
     <section id="terminal" className="py-24 px-6">
@@ -482,34 +718,53 @@ export default function Terminal() {
         </h2>
         <p className="text-slate-400 mb-8 max-w-xl">
           Type <span className="font-mono text-accent-primary">help</span> to get started.
-          Or just try a spell — you know you want to.
+          Try <span className="font-mono text-accent-primary">ls</span>, hit{' '}
+          <span className="font-mono text-accent-primary">Tab</span> to autocomplete,
+          or just cast a spell.
         </p>
 
         {/* Terminal window */}
         <div
-          className="rounded-xl overflow-hidden border border-dark-border shadow-2xl shadow-black/40 cursor-text"
+          className={`flex flex-col overflow-hidden border border-dark-border shadow-2xl shadow-black/40 cursor-text bg-dark-card ${
+            fullscreen
+              ? 'fixed inset-0 z-50 rounded-none'
+              : 'rounded-xl'
+          }`}
           onClick={() => inputRef.current?.focus()}
         >
           {/* macOS-style title bar */}
-          <div className="flex items-center gap-2 px-4 py-3 bg-dark-surface border-b border-dark-border">
+          <div className="flex items-center gap-2 px-4 py-3 bg-dark-surface border-b border-dark-border flex-shrink-0">
             <span className="w-3 h-3 rounded-full bg-red-400/80" />
             <span className="w-3 h-3 rounded-full bg-yellow-400/80" />
             <span className="w-3 h-3 rounded-full bg-green-400/80" />
-            <span className="ml-3 font-mono text-xs text-slate-500 select-none">
-              saumay@portfolio:~
+            <span className="ml-3 font-mono text-xs text-slate-500 select-none flex-1">
+              saumay@portfolio:{pwdString(cwd)}
             </span>
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setFullscreen(v => !v); }}
+              className="font-mono text-xs text-slate-500 hover:text-accent-primary px-2 py-0.5 rounded transition-colors"
+              aria-label={fullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+              title={fullscreen ? 'Exit fullscreen (Esc)' : 'Fullscreen'}
+            >
+              {fullscreen ? '✕ exit' : '⤢ fullscreen'}
+            </button>
           </div>
 
           {/* Output area */}
           <div
             ref={outputRef}
-            className="h-80 overflow-y-auto p-5 font-mono text-sm space-y-3 bg-dark-card"
+            className={`overflow-y-auto p-5 font-mono text-sm space-y-3 ${
+              fullscreen ? 'flex-1 min-h-0' : 'h-80'
+            }`}
           >
             {lines.map(line => (
               <div key={line.id}>
                 {line.kind === 'input' && (
-                  <p className="flex gap-2">
-                    <span className="text-accent-green select-none">~/saumay</span>
+                  <p className="flex flex-wrap gap-2">
+                    <span className="text-accent-green select-none">
+                      {line.cwd && line.cwd !== '/' ? `~/saumay${line.cwd}` : '~/saumay'}
+                    </span>
                     <span className="text-slate-500 select-none">$</span>
                     <span className="text-slate-200">{line.text}</span>
                   </p>
@@ -525,14 +780,13 @@ export default function Terminal() {
                 )}
               </div>
             ))}
-            {/* Spacer so content doesn't hide behind input */}
             <div className="h-1" />
           </div>
 
           {/* Input row */}
-          <div className="border-t border-dark-border bg-dark-card px-5 py-3">
+          <div className="border-t border-dark-border bg-dark-card px-5 py-3 flex-shrink-0">
             <form onSubmit={submit} className="flex items-center gap-2 font-mono text-sm">
-              <span className="text-accent-green select-none">~/saumay</span>
+              <span className="text-accent-green select-none">{promptPath}</span>
               <span className="text-slate-500 select-none">$</span>
               <input
                 ref={inputRef}
@@ -552,7 +806,7 @@ export default function Terminal() {
 
         {/* Subtle hints */}
         <p className="mt-4 font-mono text-xs text-slate-600">
-          ↑ / ↓ to navigate history &nbsp;·&nbsp; press enter to run
+          Tab autocomplete &nbsp;·&nbsp; ↑ / ↓ history &nbsp;·&nbsp; Esc exits fullscreen
         </p>
       </div>
     </section>

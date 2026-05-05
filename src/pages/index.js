@@ -8,7 +8,6 @@ import Hero from '../components/Hero';
 import Experience from '../components/Experience';
 import Projects from '../components/Projects';
 import OpenSource from '../components/OpenSource';
-import Skills from '../components/Skills';
 import BlogSection from '../components/BlogSection';
 import Terminal from '../components/Terminal';
 import Contact from '../components/Contact';
@@ -26,9 +25,8 @@ export default function Home({ posts }) {
         <Hero />
         <Terminal />
         <Experience />
-        <Projects />
         <OpenSource />
-        <Skills />
+        <Projects />
         <BlogSection posts={posts} />
         <Contact />
       </main>

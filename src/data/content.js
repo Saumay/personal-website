@@ -173,26 +173,6 @@ export const openSource = [
   },
 ];
 
-// Skills grouped by category
-export const skills = {
-  languages: ['Java', 'Go', 'Python'],
-  systems: [
-    'Distributed Systems',
-    'Multi-tenant SaaS',
-    'Microservices',
-    'Spring Boot / Spring Cloud',
-    'SQL / NoSQL Databases',
-    'Kafka',
-    'Google Cloud Platform',
-  ],
-  ai: [
-    'AI Agents',
-    'LLM Fine-tuning',
-    'Prompt Engineering',
-    'LLM-powered Testing',
-  ],
-};
-
 // Education
 export const education = [
   {

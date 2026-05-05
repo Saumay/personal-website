@@ -5,7 +5,6 @@ import matter from 'gray-matter';
 
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
-import About from '../components/About';
 import Experience from '../components/Experience';
 import Projects from '../components/Projects';
 import Skills from '../components/Skills';
@@ -18,13 +17,12 @@ export default function Home({ posts }) {
   return (
     <>
       <Head>
-        <title>Saumay Khandelwal — Senior Software Engineer</title>
+        <title>Saumay Khandelwal | Senior Software Engineer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Navbar />
       <main>
         <Hero />
-        <About />
         <Terminal />
         <Experience />
         <Projects />
@@ -39,7 +37,9 @@ export default function Home({ posts }) {
 
 export async function getStaticProps() {
   const postsDir = path.join(process.cwd(), 'posts');
-  const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md'));
+  const files = fs.existsSync(postsDir)
+    ? fs.readdirSync(postsDir).filter(f => f.endsWith('.md'))
+    : [];
 
   const posts = files
     .map(filename => {

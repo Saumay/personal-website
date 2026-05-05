@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { profile } from '../data/content';
 
 const navLinks = [
-  { href: '#about',      label: 'About' },
   { href: '#terminal',   label: 'Terminal' },
   { href: '#experience', label: 'Experience' },
   { href: '#projects',   label: 'Projects' },

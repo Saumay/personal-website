@@ -13,7 +13,7 @@ export default function BlogPost({ post }) {
   return (
     <>
       <Head>
-        <title>{post.title} — Saumay Khandelwal</title>
+        <title>{post.title} | Saumay Khandelwal</title>
         <meta name="description" content={post.excerpt} />
       </Head>
       <Navbar />
@@ -66,7 +66,9 @@ export default function BlogPost({ post }) {
 
 export async function getStaticPaths() {
   const postsDir = path.join(process.cwd(), 'posts');
-  const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md'));
+  const files = fs.existsSync(postsDir)
+    ? fs.readdirSync(postsDir).filter(f => f.endsWith('.md'))
+    : [];
   return {
     paths: files.map(f => ({ params: { slug: f.replace('.md', '') } })),
     fallback: false,

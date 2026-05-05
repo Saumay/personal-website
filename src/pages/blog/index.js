@@ -11,7 +11,7 @@ export default function BlogIndex({ posts }) {
   return (
     <>
       <Head>
-        <title>Blog — Saumay Khandelwal</title>
+        <title>Blog | Saumay Khandelwal</title>
         <meta name="description" content="Technical writing and occasional ramblings by Saumay Khandelwal." />
       </Head>
       <Navbar />
@@ -26,29 +26,36 @@ export default function BlogIndex({ posts }) {
             Opinions are mine, not my employer&apos;s. Metaphors may or may not involve go-karts.
           </p>
 
-          <div className="space-y-6">
-            {posts.map(post => (
-              <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
-                <div className="card group cursor-pointer">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="font-mono text-xs text-slate-500">{post.date}</span>
-                    {post.tag && (
-                      <span className="font-mono text-xs px-2 py-0.5 bg-accent-primary/10 text-accent-primary border border-accent-primary/20 rounded">
-                        {post.tag}
-                      </span>
-                    )}
+          {posts.length === 0 ? (
+            <div className="card font-mono text-sm text-slate-500">
+              <p className="text-accent-primary mb-2">$ ls posts/</p>
+              <p>No posts yet. First one coming soon.</p>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {posts.map(post => (
+                <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
+                  <div className="card group cursor-pointer">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="font-mono text-xs text-slate-500">{post.date}</span>
+                      {post.tag && (
+                        <span className="font-mono text-xs px-2 py-0.5 bg-accent-primary/10 text-accent-primary border border-accent-primary/20 rounded">
+                          {post.tag}
+                        </span>
+                      )}
+                    </div>
+                    <h2 className="text-xl font-bold text-slate-100 group-hover:text-accent-primary transition-colors mb-2">
+                      {post.title}
+                    </h2>
+                    <p className="text-slate-400 text-sm leading-relaxed">{post.excerpt}</p>
+                    <span className="mt-3 font-mono text-sm text-accent-primary group-hover:translate-x-1 transition-transform duration-200 inline-block">
+                      Read more →
+                    </span>
                   </div>
-                  <h2 className="text-xl font-bold text-slate-100 group-hover:text-accent-primary transition-colors mb-2">
-                    {post.title}
-                  </h2>
-                  <p className="text-slate-400 text-sm leading-relaxed">{post.excerpt}</p>
-                  <span className="mt-3 font-mono text-sm text-accent-primary group-hover:translate-x-1 transition-transform duration-200 inline-block">
-                    Read more →
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          )}
 
           <div className="mt-16 pt-8 border-t border-dark-border">
             <Link href="/" className="font-mono text-sm text-slate-400 hover:text-accent-primary transition-colors">
@@ -65,7 +72,9 @@ export default function BlogIndex({ posts }) {
 
 export async function getStaticProps() {
   const postsDir = path.join(process.cwd(), 'posts');
-  const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md'));
+  const files = fs.existsSync(postsDir)
+    ? fs.readdirSync(postsDir).filter(f => f.endsWith('.md'))
+    : [];
 
   const posts = files
     .map(filename => {

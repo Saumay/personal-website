@@ -11,7 +11,7 @@ export default function Contact() {
         </h2>
         <p className="text-slate-400 text-lg max-w-xl mx-auto mb-10">
           Whether it&apos;s a cool project, a job opportunity, or you just want to geek out
-          about distributed systems — my inbox is always open.
+          about distributed systems. My inbox is always open.
         </p>
 
         <a

@@ -6,7 +6,7 @@ export default function Document() {
       <Head>
         <meta
           name="description"
-          content="Saumay Khandelwal — Senior Software Engineer at Google. Building scalable systems, LLM-powered tools, and occasionally Mars rovers."
+          content="Saumay Khandelwal. Senior Software Engineer at Google. Building scalable systems, LLM-powered tools, and occasionally Mars rovers."
         />
         <meta property="og:title" content="Saumay Khandelwal" />
         <meta

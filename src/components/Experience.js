@@ -45,6 +45,12 @@ export default function Experience() {
                     </span>
                   </div>
 
+                  {job.note && (
+                    <p className="text-slate-300 text-sm italic leading-relaxed mb-4 pl-3 border-l-2 border-accent-primary/40">
+                      {job.note}
+                    </p>
+                  )}
+
                   <ul className="space-y-2.5">
                     {job.highlights.map((h, j) => (
                       <li key={j} className="flex gap-3 text-slate-400 text-sm leading-relaxed">

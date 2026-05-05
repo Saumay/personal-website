@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import Experience from '../components/Experience';
 import Projects from '../components/Projects';
+import OpenSource from '../components/OpenSource';
 import Skills from '../components/Skills';
 import BlogSection from '../components/BlogSection';
 import Terminal from '../components/Terminal';
@@ -26,6 +27,7 @@ export default function Home({ posts }) {
         <Terminal />
         <Experience />
         <Projects />
+        <OpenSource />
         <Skills />
         <BlogSection posts={posts} />
         <Contact />

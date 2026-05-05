@@ -3,12 +3,13 @@ import Link from 'next/link';
 import { profile } from '../data/content';
 
 const navLinks = [
-  { href: '#terminal',   label: 'Terminal' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#projects',   label: 'Projects' },
-  { href: '#skills',     label: 'Skills' },
-  { href: '#blog',       label: 'Blog' },
-  { href: '#contact',    label: 'Contact' },
+  { href: '#terminal',    label: 'Terminal' },
+  { href: '#experience',  label: 'Experience' },
+  { href: '#projects',    label: 'Projects' },
+  { href: '#open-source', label: 'Open Source' },
+  { href: '#skills',      label: 'Skills' },
+  { href: '#blog',        label: 'Blog' },
+  { href: '#contact',     label: 'Contact' },
 ];
 
 export default function Navbar() {

@@ -89,6 +89,26 @@ export const experience = [
 // Personal projects
 export const projects = [
   {
+    title: 'KVizzing: Trivia Archive & Visualizer',
+    role: 'Solo project',
+    period: '2026',
+    description:
+      'Full-stack pipeline that extracts, enriches, and visualises trivia questions from a WhatsApp quiz community. Pydantic-typed schema, multi-stage extraction (regex + LLM), web visualizer over a searchable structured archive.',
+    tags: ['Python', 'Pydantic', 'LLMs', 'Data Pipeline'],
+    emoji: '🧠',
+    link: 'https://github.com/Saumay/kvizzing_questions_visualizer',
+  },
+  {
+    title: 'F1 Insights',
+    role: 'Solo project',
+    period: '2025',
+    description:
+      'Python tooling for analysing Formula 1 race data via the FastF1 API. NumPy + matplotlib + SciPy under the hood. Built to scratch a personal F1 itch.',
+    tags: ['Python', 'FastF1', 'NumPy', 'Data Analysis'],
+    emoji: '🏎️',
+    link: 'https://github.com/Saumay/f1-insights',
+  },
+  {
     title: "European Rover Challenge '18",
     role: 'Programming Lead',
     period: 'Dec 2017 – Sept 2018',
@@ -96,7 +116,17 @@ export const projects = [
       'Led a 7-engineer CS team to build an autonomous Mars rover. Designed an in-house object detection & avoidance stack (ML + statistics), a robotic-arm simulator, and a remote controller. Finished 2nd in Asia and 18th worldwide out of 65 teams competing in Poland.',
     tags: ['Machine Learning', 'Robotics', 'Python', 'C++', 'Computer Vision'],
     emoji: '🤖',
-    link: null, // add a URL if you have one
+    link: null,
+  },
+  {
+    title: 'Videos Retrieval Service',
+    role: 'Solo project',
+    period: '2021',
+    description:
+      'Spring Boot API that fetches the latest YouTube videos for a given tag or search query, returned in reverse-chronological paginated form. Built to learn modular Spring + REST patterns end to end.',
+    tags: ['Java', 'Spring Boot', 'YouTube API', 'REST'],
+    emoji: '📺',
+    link: 'https://github.com/Saumay/videos-retrieval-service',
   },
   {
     title: 'Sabrina: Navigation Assistant for the Blind',
@@ -107,6 +137,39 @@ export const projects = [
     tags: ['IoT', 'Machine Learning', 'Python', 'Computer Vision', 'Raspberry Pi'],
     emoji: '👁️',
     link: null,
+  },
+];
+
+// Open-source contributions (merged PRs)
+export const openSource = [
+  {
+    repo: 'jax-ml/jax',
+    blurb: 'Composable transformations of Python+NumPy programs (Google).',
+    url: 'https://github.com/jax-ml/jax',
+    contributions: [
+      { title: 'Add jax.scipy.linalg.leslie',    url: 'https://github.com/jax-ml/jax/pull/37335', date: '2026-05-01' },
+      { title: 'Add jax.scipy.linalg.dft',       url: 'https://github.com/jax-ml/jax/pull/37149', date: '2026-04-24' },
+      { title: 'Add jax.scipy.linalg.hadamard',  url: 'https://github.com/jax-ml/jax/pull/37043', date: '2026-04-21' },
+      { title: 'Add jax.scipy.linalg.circulant', url: 'https://github.com/jax-ml/jax/pull/37015', date: '2026-04-21' },
+    ],
+  },
+  {
+    repo: 'keras-team/keras',
+    blurb: 'Deep Learning for humans.',
+    url: 'https://github.com/keras-team/keras',
+    contributions: [
+      { title: 'Accept plain callables as constraint in Variable setter', url: 'https://github.com/keras-team/keras/pull/22730', date: '2026-04-20' },
+      { title: 'Validate registered_name in deserialize_keras_object',    url: 'https://github.com/keras-team/keras/pull/22729', date: '2026-04-19' },
+      { title: 'Validate input_dim and output_dim in Embedding',          url: 'https://github.com/keras-team/keras/pull/22718', date: '2026-04-19' },
+    ],
+  },
+  {
+    repo: 'keras-team/keras-io',
+    blurb: 'Keras documentation, hosted at keras.io.',
+    url: 'https://github.com/keras-team/keras-io',
+    contributions: [
+      { title: 'Fix object_detection_keras_cv redirect target', url: 'https://github.com/keras-team/keras-io/pull/2352', date: '2026-04-21' },
+    ],
   },
 ];
 

@@ -17,7 +17,7 @@ export const profile = {
 
   // Typewriter phrases that cycle in the hero section
   taglines: [
-    'Building distributed systems @ Google ⚡',
+    'Build @ Google ⚡',
     'LLM-powered integration testing 🤖',
     'Built an autonomous Mars rover (ERC \'18, 2nd in Asia) 🚀',
     'Go-karter in disguise 🏎️',

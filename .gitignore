@@ -5,3 +5,7 @@ out/
 *.pem
 .env*.local
 .claude/
+
+# Personal documents — never commit
+SaumayKhandelwal_Resume_April_2025_External.pdf
+*_Resume_*.pdf
